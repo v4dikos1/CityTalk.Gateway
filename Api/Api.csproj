@@ -24,7 +24,7 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.14" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.9.0" />
-    <PackageReference Include="СityTalk.CommonLibrary" Version="1.0.7" />
+    <PackageReference Include="СityTalk.CommonLibrary" Version="1.0.9" />
   </ItemGroup>
 
 </Project>
