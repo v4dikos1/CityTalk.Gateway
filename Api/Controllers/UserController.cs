@@ -9,9 +9,9 @@ namespace Api.Controllers
     public class UserController(User.UserClient userClient) : ControllerBase
     {
         [HttpGet("{id}")]
-        public async Task<UserProfile> GetUserProfileAsync([FromRoute] string id)
+        public async Task<AccountResponse> GetAccount([FromRoute] string id)
         {
-            var response = await userClient.GetUserProfileAsync(new GetUserProfileRequest { Id = id });
+            var response = await userClient.GetAccountAsync(new GetAccountRequest { ExternalUserId = id });
             return response;
         }
     }
