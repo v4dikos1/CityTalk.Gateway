@@ -1,23 +1,47 @@
 using Api;
 using Api.Middleware;
+using NLog;
+using NLog.Web;
 
-var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine($"Current Environment: {builder.Environment.EnvironmentName}");
-builder.Services.AddUserGrpcClient(builder.Configuration);
+var logger = LogManager.Setup().LoadConfigurationFromXml("nlog.config").GetCurrentClassLogger();
 
-builder.Services.AddControllers();
+logger.Info("Инициализация API Gateway...");
 
-builder.Services.AddSwaggerGen();
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
 
-app.MapGet("/", () => "Hello World!");
+    builder.Services.AddUserGrpcClient(builder.Configuration);
 
-app.UseMiddleware<ExtensionHandlerMiddleware>();
+    builder.Services.AddControllers();
 
-app.UseSwagger()
-   .UseSwaggerUI();
+    builder.Services.AddSwaggerGen();
 
-app.MapControllers();
+    var app = builder.Build();
 
-app.Run();
+    logger.Info($"Текущее окружение: {builder.Environment.EnvironmentName}");
+
+    app.MapGet("/", () => "Hello World!");
+
+    app.UseMiddleware<ExtensionHandlerMiddleware>();
+
+    app.UseSwagger()
+       .UseSwaggerUI();
+
+    app.MapControllers();
+
+    app.Run();
+}
+catch (Exception e)
+{
+    logger.Error(e, "API Gateway остановлен из-за внутренней ошибки.");
+    throw;
+}
+finally
+{
+    LogManager.Shutdown();
+}

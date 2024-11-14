@@ -398,4 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 #Appsettings
-CityTalk.UserService/Api/appsettings.Development.json
+Api/appsettings.Development.json
+
+#NLog
+Api/nlog.config
+Api/NLog.xsd
