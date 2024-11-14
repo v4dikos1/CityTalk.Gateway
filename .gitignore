@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+#Appsettings
+Api/appsettings.Development.json
+
+#NLog
+Api/nlog.config
+Api/NLog.xsd
